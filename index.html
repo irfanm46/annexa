@@ -1169,9 +1169,9 @@ const SNIPPETS = [
     <span class="key">steps</span>:
       - <span class="key">name</span>: Check MFA status
         <span class="key">env</span>:
-          <span class="key">GH_TOKEN</span>: <span class="var">${{ secrets.ORG_ADMIN_TOKEN }}</span>
-          <span class="key">ORG</span>: <span class="var">${{ github.repository_owner }}</span>
-          <span class="key">USER</span>: <span class="var">${{ github.event.pull_request.user.login }}</span>
+          <span class="key">GH_TOKEN</span>: <span class="var">\\&#36;{{ secrets.ORG_ADMIN_TOKEN }}</span>
+          <span class="key">ORG</span>: <span class="var">\\&#36;{{ github.repository_owner }}</span>
+          <span class="key">USER</span>: <span class="var">\\&#36;{{ github.event.pull_request.user.login }}</span>
         <span class="key">run</span>: |
           STATUS=$(gh api orgs/$ORG/members/$USER 2>&1)
           MFA=$(gh api orgs/$ORG/members \
@@ -1179,7 +1179,7 @@ const SNIPPETS = [
             -H "Accept: application/vnd.github+json")
           if [ "$MFA" = "true" ]; then
             echo "::error::$USER does not have MFA enabled"
-            gh pr comment <span class="var">${{ github.event.pull_request.number }}</span> \
+            gh pr comment <span class="var">\\&#36;{{ github.event.pull_request.number }}</span> \
               --body "❌ ISO 27001 A.8.5: MFA required for all contributors."
             exit 1
           fi
@@ -1222,7 +1222,7 @@ const SNIPPETS = [
         <span class="key">uses</span>: aquasecurity/trivy-action@master
         <span class="key">with</span>:
           <span class="key">scan-type</span>: image
-          <span class="key">image-ref</span>: <span class="var">${{ github.repository }}:latest</span>
+          <span class="key">image-ref</span>: <span class="var">\\&#36;{{ github.repository }}:latest</span>
           <span class="key">severity</span>: <span class="str">CRITICAL</span>
           <span class="key">exit-code</span>: <span class="str">'1'</span>`,
   },
@@ -1263,10 +1263,10 @@ const SNIPPETS = [
 <span class="fn">log</span> <span class="str">"Days since last update: $DAYS_SINCE"</span>
 
 <span class="kw">if</span> [ <span class="str">"$DAYS_SINCE"</span> -gt <span class="str">"$HIGH_SLA"</span> ]; then
-  <span class="fn">log</span> <span class="str">"⚠ OVERDUE: Exceeds HIGH SLA of ${HIGH_SLA}d"</span>
+  <span class="fn">log</span> <span class="str">"⚠ OVERDUE: Exceeds HIGH SLA of \&#36;{HIGH_SLA}d"</span>
   <span class="kw">exit</span> <span class="num">2</span>
 <span class="kw">elif</span> [ <span class="str">"$DAYS_SINCE"</span> -gt <span class="str">"$MEDIUM_SLA"</span> ]; then
-  <span class="fn">log</span> <span class="str">"! WARNING: Exceeds MEDIUM SLA of ${MEDIUM_SLA}d"</span>
+  <span class="fn">log</span> <span class="str">"! WARNING: Exceeds MEDIUM SLA of \&#36;{MEDIUM_SLA}d"</span>
   <span class="kw">exit</span> <span class="num">1</span>
 <span class="kw">fi</span>
 
@@ -1294,7 +1294,7 @@ const SNIPPETS = [
   include_global_service_events = <span class="kw">true</span>
   is_multi_region_trail         = <span class="kw">true</span>
   enable_log_file_validation    = <span class="kw">true</span>  <span class="cmt"># tamper detection</span>
-  cloud_watch_logs_group_arn    = <span class="str">"<span class="var">${aws_cloudwatch_log_group.trail.arn}</span>:*"</span>
+  cloud_watch_logs_group_arn    = <span class="str">"<span class="var">\&#36;{aws_cloudwatch_log_group.trail.arn}</span>:*"</span>
   cloud_watch_logs_role_arn     = aws_iam_role.cloudtrail_cw.arn
 
   event_selector {
@@ -1379,7 +1379,7 @@ echo <span class="str">"--- Result: $PASS passed, $FAIL failed ---"</span>
 
 <span class="cmt"># S3 archival bucket with versioning + lifecycle</span>
 <span class="kw">resource</span> <span class="str">"aws_s3_bucket"</span> <span class="str">"audit_logs"</span> {
-  bucket = <span class="str">"<span class="var">${var.org_name}</span>-iso27001-audit-logs"</span>
+  bucket = <span class="str">"<span class="var">\&#36;{var.org_name}</span>-iso27001-audit-logs"</span>
 }
 <span class="kw">resource</span> <span class="str">"aws_s3_bucket_versioning"</span> <span class="str">"audit"</span> {
   bucket = aws_s3_bucket.audit_logs.id
@@ -1485,7 +1485,7 @@ echo <span class="str">"--- Result: $PASS passed, $FAIL failed ---"</span>
       - <span class="key">name</span>: Gitleaks — detect secrets
         <span class="key">uses</span>: gitleaks/gitleaks-action@v2
         <span class="key">env</span>:
-          <span class="key">GITHUB_TOKEN</span>: <span class="var">${{ secrets.GITHUB_TOKEN }}</span>
+          <span class="key">GITHUB_TOKEN</span>: <span class="var">\\&#36;{{ secrets.GITHUB_TOKEN }}</span>
 
   <span class="key">sast</span>:
     <span class="key">runs-on</span>: ubuntu-latest
@@ -1500,7 +1500,7 @@ echo <span class="str">"--- Result: $PASS passed, $FAIL failed ---"</span>
             p/sql-injection
             p/xss
         <span class="key">env</span>:
-          <span class="key">SEMGREP_APP_TOKEN</span>: <span class="var">${{ secrets.SEMGREP_APP_TOKEN }}</span>
+          <span class="key">SEMGREP_APP_TOKEN</span>: <span class="var">\\&#36;{{ secrets.SEMGREP_APP_TOKEN }}</span>
 
   <span class="key">dependency-audit</span>:
     <span class="key">runs-on</span>: ubuntu-latest
@@ -1562,8 +1562,8 @@ echo <span class="str">"--- Result: $PASS passed, $FAIL failed ---"</span>
       - <span class="key">name</span>: Security approval recorded
         <span class="key">run</span>: |
           echo "Security gate passed at $(date)" >> security-log.txt
-          echo "Approver: <span class="var">${{ github.actor }}</span>" >> security-log.txt
-          echo "Commit: <span class="var">${{ github.sha }}</span>" >> security-log.txt`,
+          echo "Approver: <span class="var">\\&#36;{{ github.actor }}</span>" >> security-log.txt
+          echo "Commit: <span class="var">\\&#36;{{ github.sha }}</span>" >> security-log.txt`,
   },
   {
     ctrl:'A.5.15', name:'Access Control', lang:'terraform',
@@ -1611,7 +1611,7 @@ echo <span class="str">"--- Result: $PASS passed, $FAIL failed ---"</span>
     Version = <span class="str">"2012-10-17"</span>
     Statement = [{
       Effect    = <span class="str">"Allow"</span>
-      Principal = { AWS = <span class="str">"arn:aws:iam::<span class="var">${var.account_id}</span>:root"</span> }
+      Principal = { AWS = <span class="str">"arn:aws:iam::<span class="var">\&#36;{var.account_id}</span>:root"</span> }
       Action    = <span class="str">"sts:AssumeRole"</span>
       Condition = { Bool = { <span class="str">"aws:MultiFactorAuthPresent"</span> = <span class="str">"true"</span> } }
     }]
@@ -1637,7 +1637,7 @@ echo <span class="str">"--- Result: $PASS passed, $FAIL failed ---"</span>
       {
         Sid    = <span class="str">"EnableIAMPermissions"</span>
         Effect = <span class="str">"Allow"</span>
-        Principal = { AWS = <span class="str">"arn:aws:iam::<span class="var">${var.account_id}</span>:root"</span> }
+        Principal = { AWS = <span class="str">"arn:aws:iam::<span class="var">\&#36;{var.account_id}</span>:root"</span> }
         Action   = <span class="str">"kms:*"</span>
         Resource = <span class="str">"*"</span>
       },
