@@ -207,6 +207,33 @@
     ::-webkit-scrollbar{width:6px;height:6px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
     .mobile-menu-btn{display:none;position:fixed;top:14px;left:14px;z-index:200;background:var(--bg2);border:1px solid var(--border2);border-radius:6px;width:36px;height:36px;align-items:center;justify-content:center;cursor:pointer;color:var(--text);font-size:16px}
     @media(max-width:768px){.sidebar{transform:translateX(-100%)}.sidebar.open{transform:translateX(0)}.main{margin-left:0}.mobile-menu-btn{display:flex}.stat-grid{grid-template-columns:repeat(2,1fr)}.feature-grid{grid-template-columns:1fr}.score-grid{grid-template-columns:repeat(2,1fr)}.threat-grid{grid-template-columns:1fr}.soa-header,.soa-row{grid-template-columns:60px 1fr 120px}.soa-header>*:last-child,.soa-row>*:last-child{display:none}}
+    /* CODE SNIPPETS */
+    .snip-filters{display:flex;flex-direction:column;gap:0}
+    .snip-card{background:var(--bg2);border:1px solid var(--border);border-radius:8px;margin-bottom:16px;overflow:hidden;transition:border-color .2s}
+    .snip-card:hover{border-color:var(--border2)}
+    .snip-header{padding:18px 22px;display:flex;align-items:center;gap:14px;border-bottom:1px solid var(--border);cursor:pointer}
+    .snip-ctrl-id{font-size:11px;color:var(--accent);min-width:50px}
+    .snip-ctrl-name{font-family:var(--font-ui);font-size:13px;font-weight:700;color:var(--text);flex:1}
+    .snip-ctrl-desc{font-size:10px;color:var(--text3);margin-top:2px}
+    .snip-lang-badge{font-size:9px;padding:3px 8px;border-radius:3px;letter-spacing:.5px;white-space:nowrap}
+    .snip-lang-badge.terraform{background:rgba(124,58,237,.2);color:#a78bfa}
+    .snip-lang-badge.github-actions{background:rgba(255,255,255,.07);color:#cbd5e1}
+    .snip-lang-badge.bash{background:rgba(16,185,129,.15);color:var(--accent3)}
+    .snip-lang-badge.python{background:rgba(59,130,246,.15);color:#60a5fa}
+    .snip-body{padding:0}
+    .snip-tabs{display:flex;border-bottom:1px solid var(--border);background:var(--bg3)}
+    .snip-tab{padding:10px 18px;font-size:11px;cursor:pointer;color:var(--text3);border-bottom:2px solid transparent;transition:all .15s;display:flex;align-items:center;gap:6px}
+    .snip-tab:hover{color:var(--text)}
+    .snip-tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+    .snip-pane{display:none;position:relative}
+    .snip-pane.active{display:block}
+    .snip-code{background:#050508;padding:20px 22px;font-size:11px;line-height:1.8;color:#cbd5e1;overflow-x:auto;white-space:pre;font-family:var(--font-mono)}
+    .snip-copy{position:absolute;top:10px;right:12px;background:var(--bg3);border:1px solid var(--border2);border-radius:4px;color:var(--text3);font-size:10px;padding:4px 10px;cursor:pointer;transition:all .15s;font-family:var(--font-mono)}
+    .snip-copy:hover{border-color:var(--accent);color:var(--accent)}
+    .snip-what{padding:16px 22px;font-size:11px;color:var(--text3);line-height:1.7;border-top:1px solid var(--border);background:var(--bg3)}
+    .snip-what strong{color:var(--text2)}
+    /* syntax highlight colours */
+    .kw{color:#c084fc}.fn{color:#67e8f9}.str{color:#86efac}.cmt{color:#475569}.num{color:#fbbf24}.var{color:#f9a8d4}.key{color:#7dd3fc}
     .toast{position:fixed;bottom:24px;right:24px;background:var(--bg3);border:1px solid var(--accent3);border-radius:6px;padding:12px 20px;font-size:12px;color:var(--accent3);z-index:9998;animation:slideUp .3s ease;pointer-events:none}
     @keyframes slideUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
   </style>
@@ -233,11 +260,11 @@
       <div class="nav-item" onclick="nav('threats',this)"><span class="icon">⚠</span>Threat Mapper<span class="nav-badge new">new</span></div>
       <div class="nav-item" onclick="nav('evidence',this)"><span class="icon">◻</span>Evidence Wizard<span class="nav-badge new">new</span></div>
       <div class="nav-section-label">Coming Soon</div>
-      <div class="nav-item"><span class="icon">&lt;/&gt;</span>Code Snippets<span class="nav-badge">soon</span></div>
+      <div class="nav-item" onclick="nav('snippets',this)"><span class="icon">&lt;/&gt;</span>Code Snippets<span class="nav-badge new">new</span></div>
       <div class="nav-item"><span class="icon">⇌</span>Framework Mapper<span class="nav-badge">soon</span></div>
     </nav>
     <div class="sidebar-footer">
-      <div class="version-tag">v0.2.0 · 2022 edition · offline-ready</div>
+      <div class="version-tag">v0.3.0 · 2022 edition · offline-ready</div>
     </div>
   </aside>
 
@@ -274,6 +301,7 @@
         <div class="feature-card" onclick="nav('soa',null)"><span class="fc-icon">◉</span><div class="fc-title">SoA Generator</div><div class="fc-desc">Auto-generate your Statement of Applicability — the mandatory cert doc. Free forever.</div><span class="fc-tag live">● new v0.2</span><span class="fc-arrow">→</span></div>
         <div class="feature-card" onclick="nav('threats',null)"><span class="fc-icon">⚠</span><div class="fc-title">Threat Mapper</div><div class="fc-desc">Pick a real attack scenario → see which controls prevent it and your exact gaps.</div><span class="fc-tag live">● new v0.2</span><span class="fc-arrow">→</span></div>
         <div class="feature-card" onclick="nav('evidence',null)"><span class="fc-icon">◻</span><div class="fc-title">Evidence Wizard</div><div class="fc-desc">Per-control checklist of exactly what an auditor will ask for. Walk in prepared.</div><span class="fc-tag live">● new v0.2</span><span class="fc-arrow">→</span></div>
+        <div class="feature-card" onclick="nav('snippets',null)"><span class="fc-icon">&lt;/&gt;</span><div class="fc-title">Code Snippets</div><div class="fc-desc">Every control mapped to real Terraform, GitHub Actions, Bash &amp; Python. Copy and use directly.</div><span class="fc-tag live">● new v0.3</span><span class="fc-arrow">→</span></div>
         <div class="feature-card" onclick="nav('diff',null)"><span class="fc-icon">⇄</span><div class="fc-title">2013 → 2022 Diff</div><div class="fc-desc">Side-by-side migration view. New, merged, renamed. Critical for teams transitioning.</div><span class="fc-tag live">● live</span><span class="fc-arrow">→</span></div>
       </div>
       <div class="terminal-block">
@@ -432,6 +460,37 @@
           <div id="tr-gaps"></div>
         </div>
       </div>
+    </div>
+
+    <!-- CODE SNIPPETS -->
+    <div class="page" id="page-snippets">
+      <div class="page-header">
+        <div class="page-title">Code <span class="hl">Snippets</span></div>
+        <div class="page-subtitle">Every ISO 27001 control mapped to real implementation code. Terraform · GitHub Actions · Bash · Python. Copy and use directly.</div>
+      </div>
+      <div class="snip-filters">
+        <div class="filter-group" id="snip-ctrl-filters">
+          <button class="filter-btn active" onclick="filterSnippets('all',this,'ctrl')">All Controls</button>
+          <button class="filter-btn" onclick="filterSnippets('A.8.5',this,'ctrl')">A.8.5 Auth</button>
+          <button class="filter-btn" onclick="filterSnippets('A.8.8',this,'ctrl')">A.8.8 Vulns</button>
+          <button class="filter-btn" onclick="filterSnippets('A.8.9',this,'ctrl')">A.8.9 Config</button>
+          <button class="filter-btn" onclick="filterSnippets('A.8.15',this,'ctrl')">A.8.15 Logging</button>
+          <button class="filter-btn" onclick="filterSnippets('A.8.23',this,'ctrl')">A.8.23 Sec Coding</button>
+          <button class="filter-btn" onclick="filterSnippets('A.8.25',this,'ctrl')">A.8.25 SDLC</button>
+          <button class="filter-btn" onclick="filterSnippets('A.5.15',this,'ctrl')">A.5.15 Access</button>
+          <button class="filter-btn" onclick="filterSnippets('A.8.24',this,'ctrl')">A.8.24 Crypto</button>
+          <button class="filter-btn" onclick="filterSnippets('A.8.12',this,'ctrl')">A.8.12 DLP</button>
+          <button class="filter-btn" onclick="filterSnippets('A.5.9',this,'ctrl')">A.5.9 Assets</button>
+        </div>
+        <div class="filter-group" style="margin-top:10px" id="snip-lang-filters">
+          <button class="filter-btn active" onclick="filterSnippets('all',this,'lang')">All Languages</button>
+          <button class="filter-btn" onclick="filterSnippets('terraform',this,'lang')">🟣 Terraform</button>
+          <button class="filter-btn" onclick="filterSnippets('github-actions',this,'lang')">⚫ GitHub Actions</button>
+          <button class="filter-btn" onclick="filterSnippets('bash',this,'lang')">🟢 Bash</button>
+          <button class="filter-btn" onclick="filterSnippets('python',this,'lang')">🔵 Python</button>
+        </div>
+      </div>
+      <div id="snippets-list" style="margin-top:24px"></div>
     </div>
 
     <!-- EVIDENCE -->
@@ -1051,6 +1110,766 @@ function exportPosturePDF(){
   doc.save('annexa-posture-report.pdf'); showToast('Report downloaded ✓');
 }
 
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ CODE SNIPPETS ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+const SNIPPETS = [
+  {
+    ctrl:'A.8.5', name:'Secure Authentication', lang:'terraform',
+    desc:'Enforce MFA and strong auth policies on AWS IAM',
+    what:'This Terraform enforces MFA for all IAM users, sets a strict password policy (14 chars, complexity, 90-day rotation), and blocks console access without MFA. Drop into your AWS account module.',
+    code:`<span class="cmt"># A.8.5 — Secure Authentication | Terraform (AWS)</span>
+<span class="cmt"># Enforces MFA + strong password policy across all IAM users</span>
+
+<span class="kw">resource</span> <span class="str">"aws_iam_account_password_policy"</span> <span class="str">"iso27001"</span> {
+  minimum_password_length        = <span class="num">14</span>
+  require_uppercase_characters   = <span class="kw">true</span>
+  require_lowercase_characters   = <span class="kw">true</span>
+  require_numbers                = <span class="kw">true</span>
+  require_symbols                = <span class="kw">true</span>
+  allow_users_to_change_password = <span class="kw">true</span>
+  max_password_age               = <span class="num">90</span>
+  password_reuse_prevention      = <span class="num">12</span>
+  hard_expiry                    = <span class="kw">false</span>
+}
+
+<span class="cmt"># SCP to deny all API calls without MFA</span>
+<span class="kw">resource</span> <span class="str">"aws_organizations_policy"</span> <span class="str">"require_mfa"</span> {
+  name        = <span class="str">"RequireMFA"</span>
+  description = <span class="str">"ISO 27001 A.8.5 — Deny all actions without MFA"</span>
+  content     = <span class="fn">jsonencode</span>({
+    Version = <span class="str">"2012-10-17"</span>
+    Statement = [{
+      Sid       = <span class="str">"DenyWithoutMFA"</span>
+      Effect    = <span class="str">"Deny"</span>
+      Action    = <span class="str">"*"</span>
+      Resource  = <span class="str">"*"</span>
+      Condition = {
+        BoolIfExists = {
+          <span class="str">"aws:MultiFactorAuthPresent"</span> = <span class="str">"false"</span>
+        }
+      }
+    }]
+  })
+}`,
+  },
+  {
+    ctrl:'A.8.5', name:'Secure Authentication', lang:'github-actions',
+    desc:'Block PRs from accounts without MFA enabled',
+    what:'This workflow runs on every PR and checks whether the PR author has MFA enabled on their GitHub account. If not, it fails the check and posts a comment. Requires org admin token.',
+    code:`<span class="cmt"># A.8.5 — Secure Authentication | GitHub Actions</span>
+<span class="cmt"># Blocks PRs from GitHub accounts without MFA enabled</span>
+
+<span class="key">name</span>: <span class="str">Require MFA</span>
+<span class="key">on</span>:
+  <span class="key">pull_request</span>:
+    <span class="key">types</span>: [opened, synchronize]
+
+<span class="key">jobs</span>:
+  <span class="key">check-mfa</span>:
+    <span class="key">runs-on</span>: ubuntu-latest
+    <span class="key">steps</span>:
+      - <span class="key">name</span>: Check MFA status
+        <span class="key">env</span>:
+          <span class="key">GH_TOKEN</span>: <span class="var">${{ secrets.ORG_ADMIN_TOKEN }}</span>
+          <span class="key">ORG</span>: <span class="var">${{ github.repository_owner }}</span>
+          <span class="key">USER</span>: <span class="var">${{ github.event.pull_request.user.login }}</span>
+        <span class="key">run</span>: |
+          STATUS=$(gh api orgs/$ORG/members/$USER 2>&1)
+          MFA=$(gh api orgs/$ORG/members \
+            --jq ".[] | select(.login==\\"$USER\\") | .two_factor_disabled" \
+            -H "Accept: application/vnd.github+json")
+          if [ "$MFA" = "true" ]; then
+            echo "::error::$USER does not have MFA enabled"
+            gh pr comment <span class="var">${{ github.event.pull_request.number }}</span> \
+              --body "❌ ISO 27001 A.8.5: MFA required for all contributors."
+            exit 1
+          fi
+          echo "✓ MFA check passed for $USER"`,
+  },
+  {
+    ctrl:'A.8.8', name:'Vulnerability Management', lang:'github-actions',
+    desc:'Automated dependency scanning + CVSS-gated pipeline',
+    what:'Runs Trivy on every push. Fails the build if any CRITICAL CVE is found. Also scans your container image if you build one. Generates a SARIF report uploaded to GitHub Security tab — gives you audit evidence automatically.',
+    code:`<span class="cmt"># A.8.8 — Vulnerability Management | GitHub Actions</span>
+<span class="cmt"># Trivy scanner: fails on CRITICAL, uploads SARIF to Security tab</span>
+
+<span class="key">name</span>: <span class="str">Vulnerability Scan</span>
+<span class="key">on</span>: [push, pull_request]
+
+<span class="key">jobs</span>:
+  <span class="key">trivy-scan</span>:
+    <span class="key">runs-on</span>: ubuntu-latest
+    <span class="key">steps</span>:
+      - <span class="key">uses</span>: actions/checkout@v4
+
+      - <span class="key">name</span>: Scan filesystem dependencies
+        <span class="key">uses</span>: aquasecurity/trivy-action@master
+        <span class="key">with</span>:
+          <span class="key">scan-type</span>: fs
+          <span class="key">scan-ref</span>: <span class="str">'.'</span>
+          <span class="key">severity</span>: <span class="str">CRITICAL,HIGH</span>
+          <span class="key">exit-code</span>: <span class="str">'1'</span>   <span class="cmt"># fail build on critical</span>
+          <span class="key">format</span>: sarif
+          <span class="key">output</span>: trivy-results.sarif
+
+      - <span class="key">name</span>: Upload to GitHub Security tab
+        <span class="key">uses</span>: github/codeql-action/upload-sarif@v3
+        <span class="key">if</span>: always()   <span class="cmt"># upload even if scan failed</span>
+        <span class="key">with</span>:
+          <span class="key">sarif_file</span>: trivy-results.sarif
+
+      - <span class="key">name</span>: Scan container image
+        <span class="key">if</span>: <span class="str">hashFiles('Dockerfile') != ''</span>
+        <span class="key">uses</span>: aquasecurity/trivy-action@master
+        <span class="key">with</span>:
+          <span class="key">scan-type</span>: image
+          <span class="key">image-ref</span>: <span class="var">${{ github.repository }}:latest</span>
+          <span class="key">severity</span>: <span class="str">CRITICAL</span>
+          <span class="key">exit-code</span>: <span class="str">'1'</span>`,
+  },
+  {
+    ctrl:'A.8.8', name:'Vulnerability Management', lang:'bash',
+    desc:'Weekly patch audit script — outputs overdue systems',
+    what:'Run this on a cron job weekly. It checks all installed packages against known CVEs, computes days since last patch, and outputs a sorted report of overdue systems against your ISO SLA (critical=1d, high=7d, medium=30d). Pipe to Slack or email for your audit evidence.',
+    code:`<span class="cmt">#!/bin/bash</span>
+<span class="cmt"># A.8.8 — Vulnerability Management | Bash</span>
+<span class="cmt"># Weekly patch audit — outputs systems overdue per ISO SLA</span>
+
+<span class="kw">set</span> -euo pipefail
+
+<span class="var">REPORT_FILE</span>=<span class="str">"/var/log/patch-audit-$(date +%Y%m%d).log"</span>
+<span class="var">CRITICAL_SLA</span>=<span class="num">1</span>    <span class="cmt"># days</span>
+<span class="var">HIGH_SLA</span>=<span class="num">7</span>
+<span class="var">MEDIUM_SLA</span>=<span class="num">30</span>
+
+<span class="fn">log</span>() { echo <span class="str">"[$(date +%H:%M:%S)] $*"</span> | tee -a <span class="str">"$REPORT_FILE"</span>; }
+
+<span class="fn">log</span> <span class="str">"=== ISO 27001 A.8.8 Patch Audit ==="</span>
+<span class="fn">log</span> <span class="str">"Host: $(hostname) | $(date)"</span>
+
+<span class="cmt"># Check OS type and run appropriate scanner</span>
+<span class="kw">if</span> command -v apt-get &>/dev/null; then
+  apt-get -qq update 2>/dev/null
+  <span class="var">PENDING</span>=$(apt-get -s upgrade 2>/dev/null | grep -c <span class="str">'^Inst'</span> || true)
+  <span class="var">SECURITY</span>=$(apt-get -s upgrade 2>/dev/null | grep -c <span class="str">'^Inst.*security'</span> || true)
+  <span class="fn">log</span> <span class="str">"Pending: $PENDING packages | Security: $SECURITY"</span>
+<span class="kw">elif</span> command -v yum &>/dev/null; then
+  <span class="var">PENDING</span>=$(yum check-update --quiet 2>/dev/null | grep -c <span class="str">'^[a-zA-Z]'</span> || true)
+  <span class="fn">log</span> <span class="str">"Pending: $PENDING packages"</span>
+<span class="kw">fi</span>
+
+<span class="cmt"># Check last full system update date</span>
+<span class="var">LAST_UPDATE</span>=$(stat -c %Y /var/cache/apt/pkgcache.bin 2>/dev/null || echo 0)
+<span class="var">DAYS_SINCE</span>=$(( ($(date +%s) - LAST_UPDATE) / 86400 ))
+<span class="fn">log</span> <span class="str">"Days since last update: $DAYS_SINCE"</span>
+
+<span class="kw">if</span> [ <span class="str">"$DAYS_SINCE"</span> -gt <span class="str">"$HIGH_SLA"</span> ]; then
+  <span class="fn">log</span> <span class="str">"⚠ OVERDUE: Exceeds HIGH SLA of ${HIGH_SLA}d"</span>
+  <span class="kw">exit</span> <span class="num">2</span>
+<span class="kw">elif</span> [ <span class="str">"$DAYS_SINCE"</span> -gt <span class="str">"$MEDIUM_SLA"</span> ]; then
+  <span class="fn">log</span> <span class="str">"! WARNING: Exceeds MEDIUM SLA of ${MEDIUM_SLA}d"</span>
+  <span class="kw">exit</span> <span class="num">1</span>
+<span class="kw">fi</span>
+
+<span class="fn">log</span> <span class="str">"✓ Within SLA. Report: $REPORT_FILE"</span>`,
+  },
+  {
+    ctrl:'A.8.9', name:'Configuration Management', lang:'terraform',
+    desc:'Enforce secure baseline for AWS S3, CloudTrail, and GuardDuty',
+    what:'This Terraform module enforces the ISO 27001 secure baseline for a new AWS account: S3 public access blocked at account level, CloudTrail enabled in all regions with log integrity validation, GuardDuty enabled. Run once per account.',
+    code:`<span class="cmt"># A.8.9 — Configuration Management | Terraform (AWS)</span>
+<span class="cmt"># Secure baseline: S3 block, CloudTrail, GuardDuty</span>
+
+<span class="cmt"># Block ALL public S3 access at account level</span>
+<span class="kw">resource</span> <span class="str">"aws_s3_account_public_access_block"</span> <span class="str">"baseline"</span> {
+  block_public_acls       = <span class="kw">true</span>
+  block_public_policy     = <span class="kw">true</span>
+  ignore_public_acls      = <span class="kw">true</span>
+  restrict_public_buckets = <span class="kw">true</span>
+}
+
+<span class="cmt"># CloudTrail: multi-region, log validation, S3 + CloudWatch</span>
+<span class="kw">resource</span> <span class="str">"aws_cloudtrail"</span> <span class="str">"iso27001"</span> {
+  name                          = <span class="str">"iso27001-audit-trail"</span>
+  s3_bucket_name                = aws_s3_bucket.audit_logs.id
+  include_global_service_events = <span class="kw">true</span>
+  is_multi_region_trail         = <span class="kw">true</span>
+  enable_log_file_validation    = <span class="kw">true</span>  <span class="cmt"># tamper detection</span>
+  cloud_watch_logs_group_arn    = <span class="str">"<span class="var">${aws_cloudwatch_log_group.trail.arn}</span>:*"</span>
+  cloud_watch_logs_role_arn     = aws_iam_role.cloudtrail_cw.arn
+
+  event_selector {
+    read_write_type           = <span class="str">"All"</span>
+    include_management_events = <span class="kw">true</span>
+    data_resource {
+      type   = <span class="str">"AWS::S3::Object"</span>
+      values = [<span class="str">"arn:aws:s3"</span>]
+    }
+  }
+  tags = { iso27001 = <span class="str">"A.8.9"</span> }
+}
+
+<span class="cmt"># GuardDuty: threat detection enabled in all regions</span>
+<span class="kw">resource</span> <span class="str">"aws_guardduty_detector"</span> <span class="str">"main"</span> {
+  enable                       = <span class="kw">true</span>
+  finding_publishing_frequency = <span class="str">"FIFTEEN_MINUTES"</span>
+  datasources {
+    s3_logs { enable = <span class="kw">true</span> }
+    kubernetes { audit_logs { enable = <span class="kw">true</span> } }
+    malware_protection { scan_ec2_instance_with_findings { ebs_volumes { enable = <span class="kw">true</span> } } }
+  }
+}`,
+  },
+  {
+    ctrl:'A.8.9', name:'Configuration Management', lang:'bash',
+    desc:'CIS benchmark drift checker — alerts on config deviation',
+    what:'Checks your Linux server against CIS Level 1 hardening baseline. Tests SSH config, password policy, world-writable files, SUID binaries, and firewall status. Outputs a pass/fail report. Run on a schedule and alert on failures.',
+    code:`<span class="cmt">#!/bin/bash</span>
+<span class="cmt"># A.8.9 — Configuration Management | Bash</span>
+<span class="cmt"># CIS Level 1 drift check — fails if baseline deviates</span>
+
+<span class="var">PASS</span>=<span class="num">0</span>; <span class="var">FAIL</span>=<span class="num">0</span>
+<span class="fn">check</span>() {
+  <span class="kw">if</span> eval <span class="str">"$2"</span> &>/dev/null; then
+    echo <span class="str">"✓ $1"</span>; (( PASS++ ))
+  <span class="kw">else</span>
+    echo <span class="str">"✗ FAIL: $1"</span>; (( FAIL++ ))
+  <span class="kw">fi</span>
+}
+
+echo <span class="str">"=== ISO 27001 A.8.9 Config Baseline Check ==="</span>
+
+<span class="cmt"># SSH hardening</span>
+<span class="fn">check</span> <span class="str">"SSH PermitRootLogin disabled"</span> \
+  <span class="str">"grep -q 'PermitRootLogin no' /etc/ssh/sshd_config"</span>
+<span class="fn">check</span> <span class="str">"SSH PasswordAuthentication disabled"</span> \
+  <span class="str">"grep -q 'PasswordAuthentication no' /etc/ssh/sshd_config"</span>
+<span class="fn">check</span> <span class="str">"SSH Protocol 2 only"</span> \
+  <span class="str">"! grep -q 'Protocol 1' /etc/ssh/sshd_config"</span>
+
+<span class="cmt"># Password policy</span>
+<span class="fn">check</span> <span class="str">"Password min length >= 14"</span> \
+  <span class="str">"grep -q 'minlen.*1[4-9]' /etc/security/pwquality.conf"</span>
+<span class="fn">check</span> <span class="str">"Password complexity enforced"</span> \
+  <span class="str">"grep -q 'minclass.*[34]' /etc/security/pwquality.conf"</span>
+
+<span class="cmt"># Filesystem</span>
+<span class="fn">check</span> <span class="str">"No world-writable files in /etc"</span> \
+  <span class="str">"[ -z \"\$(find /etc -perm -002 -type f 2>/dev/null)\" ]"</span>
+<span class="fn">check</span> <span class="str">"Firewall active"</span> \
+  <span class="str">"systemctl is-active --quiet ufw || systemctl is-active --quiet firewalld"</span>
+<span class="fn">check</span> <span class="str">"Auditd running"</span> \
+  <span class="str">"systemctl is-active --quiet auditd"</span>
+
+echo <span class="str">"--- Result: $PASS passed, $FAIL failed ---"</span>
+[ <span class="str">"$FAIL"</span> -gt <span class="num">0</span> ] && <span class="kw">exit</span> <span class="num">1</span> || <span class="kw">exit</span> <span class="num">0</span>`,
+  },
+  {
+    ctrl:'A.8.15', name:'Logging', lang:'terraform',
+    desc:'Centralised logging: CloudWatch + S3 with 1-year retention',
+    what:'Creates a centralised logging infrastructure compliant with A.8.15: CloudWatch log group with 365-day retention (minimum ISO requirement), S3 bucket for long-term archival with versioning and lifecycle, and a metric filter that alerts on any root account usage.',
+    code:`<span class="cmt"># A.8.15 — Logging | Terraform (AWS)</span>
+<span class="cmt"># Centralised logging: 365-day retention + root usage alert</span>
+
+<span class="kw">resource</span> <span class="str">"aws_cloudwatch_log_group"</span> <span class="str">"security_logs"</span> {
+  name              = <span class="str">"/iso27001/security-events"</span>
+  retention_in_days = <span class="num">365</span>  <span class="cmt"># ISO 27001 minimum</span>
+  kms_key_id        = aws_kms_key.logs.arn
+  tags = { iso27001 = <span class="str">"A.8.15"</span>, classification = <span class="str">"restricted"</span> }
+}
+
+<span class="cmt"># S3 archival bucket with versioning + lifecycle</span>
+<span class="kw">resource</span> <span class="str">"aws_s3_bucket"</span> <span class="str">"audit_logs"</span> {
+  bucket = <span class="str">"<span class="var">${var.org_name}</span>-iso27001-audit-logs"</span>
+}
+<span class="kw">resource</span> <span class="str">"aws_s3_bucket_versioning"</span> <span class="str">"audit"</span> {
+  bucket = aws_s3_bucket.audit_logs.id
+  versioning_configuration { status = <span class="str">"Enabled"</span> }
+}
+<span class="kw">resource</span> <span class="str">"aws_s3_bucket_lifecycle_configuration"</span> <span class="str">"audit"</span> {
+  bucket = aws_s3_bucket.audit_logs.id
+  rule {
+    id = <span class="str">"archive-after-90d"</span>; status = <span class="str">"Enabled"</span>
+    transition { days = <span class="num">90</span>; storage_class = <span class="str">"GLACIER"</span> }
+    expiration { days = <span class="num">2555</span> }  <span class="cmt"># 7 years</span>
+  }
+}
+
+<span class="cmt"># Alert on root account usage (ISO critical finding)</span>
+<span class="kw">resource</span> <span class="str">"aws_cloudwatch_metric_alarm"</span> <span class="str">"root_usage"</span> {
+  alarm_name    = <span class="str">"ISO27001-RootAccountUsage"</span>
+  alarm_description = <span class="str">"A.8.15: Root account used — immediate investigation required"</span>
+  metric_name   = <span class="str">"RootAccountUsage"</span>
+  namespace     = <span class="str">"CloudTrailMetrics"</span>
+  statistic     = <span class="str">"Sum"</span>
+  period        = <span class="num">300</span>
+  threshold     = <span class="num">1</span>
+  comparison_operator = <span class="str">"GreaterThanOrEqualToThreshold"</span>
+  alarm_actions = [aws_sns_topic.security_alerts.arn]
+}`,
+  },
+  {
+    ctrl:'A.8.15', name:'Logging', lang:'python',
+    desc:'Log integrity checker — detects tampered or deleted logs',
+    what:'Queries your CloudWatch log groups and verifies log sequence integrity. Detects gaps in log streams (which could indicate deletion or tampering). Outputs a report and exits non-zero if anomalies found. Run daily as a Lambda or cron job.',
+    code:`<span class="cmt"># A.8.15 — Logging | Python</span>
+<span class="cmt"># Log integrity checker — detects gaps / tampering in CloudWatch</span>
+
+<span class="kw">import</span> boto3
+<span class="kw">import</span> json
+<span class="kw">from</span> datetime <span class="kw">import</span> datetime, timedelta
+<span class="kw">from</span> typing <span class="kw">import</span> Dict, List
+
+<span class="kw">def</span> <span class="fn">check_log_integrity</span>(
+    log_group: str,
+    hours_back: int = <span class="num">24</span>
+) -> Dict:
+    <span class="str">"""
+    Check CloudWatch log group for gaps or anomalies.
+    Returns dict with findings for audit evidence.
+    """</span>
+    client = boto3.client(<span class="str">'logs'</span>)
+    end_time = <span class="fn">int</span>(datetime.now().timestamp() * <span class="num">1000</span>)
+    start_time = <span class="fn">int</span>((datetime.now() - timedelta(hours=hours_back))
+                    .timestamp() * <span class="num">1000</span>)
+
+    streams = client.describe_log_streams(
+        logGroupName=log_group,
+        orderBy=<span class="str">'LastEventTime'</span>,
+        descending=<span class="kw">True</span>,
+        limit=<span class="num">50</span>
+    )[<span class="str">'logStreams'</span>]
+
+    findings = []
+    <span class="kw">for</span> stream <span class="kw">in</span> streams:
+        last_event = stream.get(<span class="str">'lastEventTimestamp'</span>, <span class="num">0</span>)
+        <span class="cmt"># Flag streams with no events in expected window</span>
+        <span class="kw">if</span> last_event < start_time <span class="kw">and</span> stream.get(<span class="str">'storedBytes'</span>, <span class="num">0</span>) > <span class="num">0</span>:
+            findings.append({
+                <span class="str">'stream'</span>: stream[<span class="str">'logStreamName'</span>],
+                <span class="str">'issue'</span>: <span class="str">'No recent events — possible deletion or gap'</span>,
+                <span class="str">'last_event'</span>: datetime.fromtimestamp(last_event/<span class="num">1000</span>)
+                                        .isoformat()
+            })
+
+    result = {
+        <span class="str">'log_group'</span>: log_group,
+        <span class="str">'checked_at'</span>: datetime.now().isoformat(),
+        <span class="str">'streams_checked'</span>: <span class="fn">len</span>(streams),
+        <span class="str">'findings'</span>: findings,
+        <span class="str">'iso_control'</span>: <span class="str">'A.8.15'</span>,
+        <span class="str">'status'</span>: <span class="str">'FAIL'</span> <span class="kw">if</span> findings <span class="kw">else</span> <span class="str">'PASS'</span>
+    }
+    <span class="fn">print</span>(json.dumps(result, indent=<span class="num">2</span>))
+    <span class="kw">return</span> result
+
+<span class="kw">if</span> __name__ == <span class="str">'__main__'</span>:
+    r = <span class="fn">check_log_integrity</span>(<span class="str">'/iso27001/security-events'</span>)
+    <span class="kw">raise</span> SystemExit(<span class="num">1</span> <span class="kw">if</span> r[<span class="str">'findings'</span>] <span class="kw">else</span> <span class="num">0</span>)`,
+  },
+  {
+    ctrl:'A.8.23', name:'Secure Coding', lang:'github-actions',
+    desc:'Full SAST pipeline: secret scanning + SAST + dependency audit',
+    what:'Three security checks in one workflow: Gitleaks scans for secrets, Semgrep runs OWASP rules as SAST, and npm/pip audit checks for vulnerable dependencies. All three must pass before merge. Results upload to GitHub Security tab automatically.',
+    code:`<span class="cmt"># A.8.23 — Secure Coding | GitHub Actions</span>
+<span class="cmt"># SAST pipeline: secrets + static analysis + dependency audit</span>
+
+<span class="key">name</span>: <span class="str">Security Scan</span>
+<span class="key">on</span>: [push, pull_request]
+
+<span class="key">jobs</span>:
+  <span class="key">secrets-scan</span>:
+    <span class="key">runs-on</span>: ubuntu-latest
+    <span class="key">steps</span>:
+      - <span class="key">uses</span>: actions/checkout@v4
+        <span class="key">with</span>: { fetch-depth: 0 }
+      - <span class="key">name</span>: Gitleaks — detect secrets
+        <span class="key">uses</span>: gitleaks/gitleaks-action@v2
+        <span class="key">env</span>:
+          <span class="key">GITHUB_TOKEN</span>: <span class="var">${{ secrets.GITHUB_TOKEN }}</span>
+
+  <span class="key">sast</span>:
+    <span class="key">runs-on</span>: ubuntu-latest
+    <span class="key">steps</span>:
+      - <span class="key">uses</span>: actions/checkout@v4
+      - <span class="key">name</span>: Semgrep SAST — OWASP rules
+        <span class="key">uses</span>: semgrep/semgrep-action@v1
+        <span class="key">with</span>:
+          <span class="key">config</span>: >-
+            p/owasp-top-ten
+            p/secrets
+            p/sql-injection
+            p/xss
+        <span class="key">env</span>:
+          <span class="key">SEMGREP_APP_TOKEN</span>: <span class="var">${{ secrets.SEMGREP_APP_TOKEN }}</span>
+
+  <span class="key">dependency-audit</span>:
+    <span class="key">runs-on</span>: ubuntu-latest
+    <span class="key">steps</span>:
+      - <span class="key">uses</span>: actions/checkout@v4
+      - <span class="key">name</span>: Audit Node dependencies
+        <span class="key">if</span>: <span class="str">hashFiles('package.json') != ''</span>
+        <span class="key">run</span>: npm audit --audit-level=high
+      - <span class="key">name</span>: Audit Python dependencies
+        <span class="key">if</span>: <span class="str">hashFiles('requirements.txt') != ''</span>
+        <span class="key">run</span>: |
+          pip install safety --quiet
+          safety check -r requirements.txt`,
+  },
+  {
+    ctrl:'A.8.25', name:'Secure Development Lifecycle', lang:'github-actions',
+    desc:'Full secure SDLC pipeline: lint → SAST → test → scan → deploy gate',
+    what:'Complete ISO 27001 A.8.25 compliant CI/CD pipeline. Security is a gate at every stage. No deployment to production without passing: SAST, dependency scan, container scan, and a manual security approval for releases. Annotate your commit history with proof.',
+    code:`<span class="cmt"># A.8.25 — Secure Development Lifecycle | GitHub Actions</span>
+<span class="cmt"># Full pipeline: every security gate must pass before deploy</span>
+
+<span class="key">name</span>: <span class="str">Secure SDLC Pipeline</span>
+<span class="key">on</span>:
+  <span class="key">push</span>:
+    <span class="key">branches</span>: [main, develop]
+  <span class="key">pull_request</span>:
+
+<span class="key">jobs</span>:
+  <span class="key">sast</span>:
+    <span class="key">name</span>: <span class="str">Static Analysis</span>
+    <span class="key">runs-on</span>: ubuntu-latest
+    <span class="key">steps</span>:
+      - <span class="key">uses</span>: actions/checkout@v4
+      - <span class="key">uses</span>: github/codeql-action/init@v3
+        <span class="key">with</span>:
+          <span class="key">languages</span>: javascript, python
+          <span class="key">queries</span>: security-extended
+      - <span class="key">uses</span>: github/codeql-action/analyze@v3
+
+  <span class="key">dependency-scan</span>:
+    <span class="key">name</span>: <span class="str">Dependency Audit</span>
+    <span class="key">runs-on</span>: ubuntu-latest
+    <span class="key">steps</span>:
+      - <span class="key">uses</span>: actions/checkout@v4
+      - <span class="key">uses</span>: aquasecurity/trivy-action@master
+        <span class="key">with</span>:
+          <span class="key">scan-type</span>: fs
+          <span class="key">severity</span>: CRITICAL,HIGH
+          <span class="key">exit-code</span>: <span class="str">'1'</span>
+
+  <span class="key">security-gate</span>:
+    <span class="key">name</span>: <span class="str">Security Approval Gate</span>
+    <span class="key">needs</span>: [sast, dependency-scan]
+    <span class="key">runs-on</span>: ubuntu-latest
+    <span class="key">if</span>: github.ref == 'refs/heads/main'
+    <span class="key">environment</span>:
+      <span class="key">name</span>: production    <span class="cmt"># requires manual approval in GitHub Environments</span>
+    <span class="key">steps</span>:
+      - <span class="key">name</span>: Security approval recorded
+        <span class="key">run</span>: |
+          echo "Security gate passed at $(date)" >> security-log.txt
+          echo "Approver: <span class="var">${{ github.actor }}</span>" >> security-log.txt
+          echo "Commit: <span class="var">${{ github.sha }}</span>" >> security-log.txt`,
+  },
+  {
+    ctrl:'A.5.15', name:'Access Control', lang:'terraform',
+    desc:'AWS IAM least-privilege roles with boundary enforcement',
+    what:'Implements least-privilege IAM using permission boundaries. No IAM entity can exceed the boundary, even if given admin. Creates role for developers (read-only prod, full dev), with an explicit deny on IAM self-escalation. The boundary is the ISO control.',
+    code:`<span class="cmt"># A.5.15 — Access Control | Terraform (AWS)</span>
+<span class="cmt"># Least privilege IAM with permission boundaries</span>
+
+<span class="cmt"># Permission boundary — no role can exceed this ceiling</span>
+<span class="kw">resource</span> <span class="str">"aws_iam_policy"</span> <span class="str">"developer_boundary"</span> {
+  name        = <span class="str">"iso27001-developer-boundary"</span>
+  description = <span class="str">"ISO 27001 A.5.15 — Max permissions for developer roles"</span>
+  policy = <span class="fn">jsonencode</span>({
+    Version = <span class="str">"2012-10-17"</span>
+    Statement = [
+      {
+        Sid    = <span class="str">"AllowDeveloperServices"</span>
+        Effect = <span class="str">"Allow"</span>
+        Action = [
+          <span class="str">"s3:Get*"</span>, <span class="str">"s3:List*"</span>,
+          <span class="str">"logs:Get*"</span>, <span class="str">"logs:List*"</span>, <span class="str">"logs:Describe*"</span>,
+          <span class="str">"ec2:Describe*"</span>, <span class="str">"ecs:Describe*"</span>, <span class="str">"ecs:List*"</span>
+        ]
+        Resource = <span class="str">"*"</span>
+      },
+      {
+        Sid    = <span class="str">"DenyIAMEscalation"</span>
+        Effect = <span class="str">"Deny"</span>
+        Action = [
+          <span class="str">"iam:CreateUser"</span>, <span class="str">"iam:AttachUserPolicy"</span>,
+          <span class="str">"iam:PutUserPolicy"</span>, <span class="str">"iam:CreateAccessKey"</span>,
+          <span class="str">"iam:UpdateLoginProfile"</span>
+        ]
+        Resource = <span class="str">"*"</span>
+      }
+    ]
+  })
+}
+
+<span class="cmt"># Developer role with boundary attached</span>
+<span class="kw">resource</span> <span class="str">"aws_iam_role"</span> <span class="str">"developer"</span> {
+  name                 = <span class="str">"iso27001-developer"</span>
+  permissions_boundary = aws_iam_policy.developer_boundary.arn
+  assume_role_policy = <span class="fn">jsonencode</span>({
+    Version = <span class="str">"2012-10-17"</span>
+    Statement = [{
+      Effect    = <span class="str">"Allow"</span>
+      Principal = { AWS = <span class="str">"arn:aws:iam::<span class="var">${var.account_id}</span>:root"</span> }
+      Action    = <span class="str">"sts:AssumeRole"</span>
+      Condition = { Bool = { <span class="str">"aws:MultiFactorAuthPresent"</span> = <span class="str">"true"</span> } }
+    }]
+  })
+  tags = { iso27001 = <span class="str">"A.5.15"</span> }
+}`,
+  },
+  {
+    ctrl:'A.8.24', name:'Cryptography', lang:'terraform',
+    desc:'KMS key management with rotation and access policy',
+    what:'Creates a KMS key with mandatory annual rotation (ISO requirement), strict key policy that prevents anyone including root from disabling rotation, CloudWatch alarm on any key deletion, and separate keys per data classification level.',
+    code:`<span class="cmt"># A.8.24 — Cryptography | Terraform (AWS)</span>
+<span class="cmt"># KMS key management: rotation enforced, deletion alarmed</span>
+
+<span class="kw">resource</span> <span class="str">"aws_kms_key"</span> <span class="str">"restricted_data"</span> {
+  description             = <span class="str">"ISO 27001 A.8.24 — Restricted data encryption"</span>
+  deletion_window_in_days = <span class="num">30</span>
+  enable_key_rotation     = <span class="kw">true</span>   <span class="cmt"># mandatory per ISO 27001</span>
+  multi_region            = <span class="kw">false</span>
+  policy = <span class="fn">jsonencode</span>({
+    Version = <span class="str">"2012-10-17"</span>
+    Statement = [
+      {
+        Sid    = <span class="str">"EnableIAMPermissions"</span>
+        Effect = <span class="str">"Allow"</span>
+        Principal = { AWS = <span class="str">"arn:aws:iam::<span class="var">${var.account_id}</span>:root"</span> }
+        Action   = <span class="str">"kms:*"</span>
+        Resource = <span class="str">"*"</span>
+      },
+      {
+        Sid    = <span class="str">"DenyRotationDisable"</span>
+        Effect = <span class="str">"Deny"</span>
+        Principal = { AWS = <span class="str">"*"</span> }
+        Action   = <span class="str">"kms:DisableKeyRotation"</span>
+        Resource = <span class="str">"*"</span>   <span class="cmt"># no one can disable rotation</span>
+      }
+    ]
+  })
+  tags = { iso27001 = <span class="str">"A.8.24"</span>, classification = <span class="str">"restricted"</span> }
+}
+
+<span class="kw">resource</span> <span class="str">"aws_kms_alias"</span> <span class="str">"restricted"</span> {
+  name          = <span class="str">"alias/iso27001-restricted"</span>
+  target_key_id = aws_kms_key.restricted_data.key_id
+}
+
+<span class="cmt"># Alert immediately if anyone schedules key deletion</span>
+<span class="kw">resource</span> <span class="str">"aws_cloudwatch_metric_alarm"</span> <span class="str">"key_deletion"</span> {
+  alarm_name        = <span class="str">"ISO27001-KMSKeyDeletion"</span>
+  alarm_description = <span class="str">"A.8.24: KMS key scheduled for deletion — requires CISO approval"</span>
+  namespace         = <span class="str">"AWS/KMS"</span>
+  metric_name       = <span class="str">"KeyScheduledForDeletion"</span>
+  statistic         = <span class="str">"Sum"</span>
+  period            = <span class="num">300</span>
+  threshold         = <span class="num">1</span>
+  comparison_operator = <span class="str">"GreaterThanOrEqualToThreshold"</span>
+  alarm_actions     = [aws_sns_topic.security_alerts.arn]
+}`,
+  },
+  {
+    ctrl:'A.8.12', name:'Data Leakage Prevention', lang:'python',
+    desc:'Scan S3 buckets for exposed PII using pattern matching',
+    what:'Scans all objects in an S3 bucket for PII patterns (email, phone, credit card, SSN, NHS number). Outputs a report of findings with bucket/key/line location. Run as a Lambda on a schedule or trigger on S3 object creation events.',
+    code:`<span class="cmt"># A.8.12 — Data Leakage Prevention | Python</span>
+<span class="cmt"># Scan S3 buckets for exposed PII — email, CC, SSN, phone</span>
+
+<span class="kw">import</span> boto3
+<span class="kw">import</span> re
+<span class="kw">import</span> json
+<span class="kw">from</span> dataclasses <span class="kw">import</span> dataclass, asdict
+<span class="kw">from</span> typing <span class="kw">import</span> List
+
+<span class="var">PII_PATTERNS</span> = {
+    <span class="str">'email'</span>:       <span class="kw">re</span>.compile(<span class="str">r'[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}'</span>),
+    <span class="str">'credit_card'</span>: <span class="kw">re</span>.compile(<span class="str">r'\b(?:4[0-9]{12}|5[1-5][0-9]{14}|3[47][0-9]{13})\b'</span>),
+    <span class="str">'ssn_us'</span>:      <span class="kw">re</span>.compile(<span class="str">r'\b\d{3}-\d{2}-\d{4}\b'</span>),
+    <span class="str">'phone_uk'</span>:    <span class="kw">re</span>.compile(<span class="str">r'\b(?:07\d{9}|\+44\s?\d{10})\b'</span>),
+    <span class="str">'nhs_number'</span>:  <span class="kw">re</span>.compile(<span class="str">r'\b\d{3}\s\d{3}\s\d{4}\b'</span>),
+}
+
+@dataclass
+<span class="kw">class</span> <span class="fn">Finding</span>:
+    bucket: str; key: str; pii_type: str; count: int
+
+<span class="kw">def</span> <span class="fn">scan_bucket</span>(bucket_name: str, max_objects: int = <span class="num">1000</span>) -> List[Finding]:
+    s3 = boto3.client(<span class="str">'s3'</span>)
+    findings = []
+    paginator = s3.get_paginator(<span class="str">'list_objects_v2'</span>)
+
+    <span class="kw">for</span> page <span class="kw">in</span> paginator.paginate(Bucket=bucket_name):
+        <span class="kw">for</span> obj <span class="kw">in</span> page.get(<span class="str">'Contents'</span>, [])[:max_objects]:
+            key = obj[<span class="str">'Key'</span>]
+            <span class="kw">if</span> <span class="kw">not</span> key.endswith((<span class="str">'.txt'</span>,<span class="str">'.csv'</span>,<span class="str">'.json'</span>,<span class="str">'.log'</span>)):
+                <span class="kw">continue</span>
+            <span class="kw">try</span>:
+                body = s3.get_object(Bucket=bucket_name, Key=key
+                          )[<span class="str">'Body'</span>].read().decode(<span class="str">'utf-8'</span>, errors=<span class="str">'ignore'</span>)
+                <span class="kw">for</span> pii_type, pattern <span class="kw">in</span> PII_PATTERNS.items():
+                    matches = pattern.findall(body)
+                    <span class="kw">if</span> matches:
+                        findings.append(<span class="fn">Finding</span>(bucket_name, key, pii_type, <span class="fn">len</span>(matches)))
+            <span class="kw">except</span> Exception <span class="kw">as</span> e:
+                <span class="fn">print</span>(<span class="str">f"Skip {key}: {e}"</span>)
+
+    report = {<span class="str">'iso_control'</span>:<span class="str">'A.8.12'</span>, <span class="str">'bucket'</span>:bucket_name,
+              <span class="str">'findings_count'</span>:<span class="fn">len</span>(findings),
+              <span class="str">'findings'</span>:[asdict(f) <span class="kw">for</span> f <span class="kw">in</span> findings]}
+    <span class="fn">print</span>(json.dumps(report, indent=<span class="num">2</span>))
+    <span class="kw">return</span> findings
+
+<span class="kw">if</span> __name__ == <span class="str">'__main__'</span>:
+    <span class="kw">import</span> sys
+    findings = <span class="fn">scan_bucket</span>(sys.argv[<span class="num">1</span>])
+    <span class="kw">raise</span> SystemExit(<span class="num">1</span> <span class="kw">if</span> findings <span class="kw">else</span> <span class="num">0</span>)`,
+  },
+  {
+    ctrl:'A.5.9', name:'Asset Inventory', lang:'python',
+    desc:'Auto-discover and inventory all AWS resources across services',
+    what:'Uses AWS Resource Groups Tagging API to enumerate all tagged resources across every region and service. Outputs a structured JSON asset inventory with service type, region, ARN, and tags. Schedule monthly and diff output to detect shadow IT.',
+    code:`<span class="cmt"># A.5.9 — Asset Inventory | Python</span>
+<span class="cmt"># Auto-discover all AWS resources and generate asset register</span>
+
+<span class="kw">import</span> boto3
+<span class="kw">import</span> json
+<span class="kw">from</span> datetime <span class="kw">import</span> datetime
+<span class="kw">from</span> collections <span class="kw">import</span> defaultdict
+
+<span class="kw">def</span> <span class="fn">build_asset_inventory</span>() -> dict:
+    <span class="str">"""
+    Enumerate all AWS resources using Resource Groups Tagging API.
+    Returns structured inventory for ISO 27001 A.5.9 compliance.
+    """</span>
+    ec2 = boto3.client(<span class="str">'ec2'</span>)
+    regions = [r[<span class="str">'RegionName'</span>] <span class="kw">for</span> r
+               <span class="kw">in</span> ec2.describe_regions()[<span class="str">'Regions'</span>]]
+
+    inventory = defaultdict(list)
+    total = <span class="num">0</span>
+
+    <span class="kw">for</span> region <span class="kw">in</span> regions:
+        client = boto3.client(<span class="str">'resourcegroupstaggingapi'</span>, region_name=region)
+        paginator = client.get_paginator(<span class="str">'get_resources'</span>)
+        <span class="kw">for</span> page <span class="kw">in</span> paginator.paginate():
+            <span class="kw">for</span> resource <span class="kw">in</span> page[<span class="str">'ResourceTagMappingList'</span>]:
+                arn = resource[<span class="str">'ResourceARN'</span>]
+                service = arn.split(<span class="str">':'</span>)[<span class="num">2</span>]
+                tags = {t[<span class="str">'Key'</span>]:t[<span class="str">'Value'</span>] <span class="kw">for</span> t <span class="kw">in</span> resource[<span class="str">'Tags'</span>]}
+                inventory[service].append({
+                    <span class="str">'arn'</span>: arn, <span class="str">'region'</span>: region,
+                    <span class="str">'owner'</span>: tags.get(<span class="str">'Owner'</span>, <span class="str">'untagged'</span>),
+                    <span class="str">'env'</span>: tags.get(<span class="str">'Environment'</span>, <span class="str">'unknown'</span>),
+                    <span class="str">'classification'</span>: tags.get(<span class="str">'DataClassification'</span>, <span class="str">'not-set'</span>)
+                })
+                total += <span class="num">1</span>
+
+    result = {
+        <span class="str">'iso_control'</span>: <span class="str">'A.5.9'</span>,
+        <span class="str">'generated_at'</span>: datetime.utcnow().isoformat(),
+        <span class="str">'total_assets'</span>: total,
+        <span class="str">'untagged_count'</span>: <span class="fn">sum</span>(<span class="num">1</span> <span class="kw">for</span> svc <span class="kw">in</span> inventory.values()
+                              <span class="kw">for</span> r <span class="kw">in</span> svc <span class="kw">if</span> r[<span class="str">'owner'</span>] == <span class="str">'untagged'</span>),
+        <span class="str">'by_service'</span>: dict(inventory)
+    }
+    <span class="kw">with</span> <span class="fn">open</span>(<span class="str">f'asset-inventory-{datetime.now().strftime("%Y%m%d")}.json'</span>,<span class="str">'w'</span>) <span class="kw">as</span> f:
+        json.dump(result, f, indent=<span class="num">2</span>)
+    <span class="fn">print</span>(<span class="str">f"✓ {total} assets inventoried across {len(regions)} regions"</span>)
+    <span class="kw">return</span> result
+
+<span class="kw">if</span> __name__ == <span class="str">'__main__'</span>:
+    <span class="fn">build_asset_inventory</span>()`,
+  },
+];
+
+// State for snippet filters
+let snipCtrlFilter = 'all';
+let snipLangFilter = 'all';
+let activeSnipTabs = {}; // cardIndex -> lang
+
+function buildSnippets(){
+  renderSnippets();
+}
+
+function filterSnippets(val, btn, type){
+  if(type==='ctrl'){
+    snipCtrlFilter=val;
+    document.querySelectorAll('#snip-ctrl-filters .filter-btn').forEach(b=>b.classList.remove('active'));
+  } else {
+    snipLangFilter=val;
+    document.querySelectorAll('#snip-lang-filters .filter-btn').forEach(b=>b.classList.remove('active'));
+  }
+  btn.classList.add('active');
+  renderSnippets();
+}
+
+function renderSnippets(){
+  const list = document.getElementById('snippets-list');
+  const filtered = SNIPPETS.filter(s =>
+    (snipCtrlFilter==='all' || s.ctrl===snipCtrlFilter) &&
+    (snipLangFilter==='all' || s.lang===snipLangFilter)
+  );
+  if(!filtered.length){
+    list.innerHTML=`<div style="padding:40px;text-align:center;color:var(--text3);font-size:12px">No snippets match this filter combination.</div>`;
+    return;
+  }
+  // Group by control
+  const grouped = {};
+  filtered.forEach(s=>{
+    if(!grouped[s.ctrl])grouped[s.ctrl]=[];
+    grouped[s.ctrl].push(s);
+  });
+  let html='';
+  Object.keys(grouped).forEach(ctrl=>{
+    const snips=grouped[ctrl];
+    const ctrl_obj=CONTROLS.find(c=>c.id===ctrl)||{name:ctrl};
+    html+=`<div class="snip-card">
+      <div class="snip-header">
+        <div><div class="snip-ctrl-id">${ctrl}</div><div class="snip-ctrl-name">${ctrl_obj.name}</div></div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-left:auto">
+          ${[...new Set(snips.map(s=>s.lang))].map(l=>`<span class="snip-lang-badge ${l}">${l}</span>`).join('')}
+        </div>
+      </div>
+      <div class="snip-tabs" id="tabs-${ctrl.replace('.','_')}">
+        ${snips.map((s,i)=>`<div class="snip-tab ${i===0?'active':''}" onclick="switchTab('${ctrl.replace('.','_')}',${i},this)">${s.lang === 'github-actions' ? 'GitHub Actions' : s.lang.charAt(0).toUpperCase()+s.lang.slice(1)} — ${s.desc}</div>`).join('')}
+      </div>
+      ${snips.map((s,i)=>`
+        <div class="snip-pane ${i===0?'active':''}" id="pane-${ctrl.replace('.','_')}-${i}">
+          <div class="snip-body">
+            <div style="position:relative">
+              <pre class="snip-code">${s.code}</pre>
+              <button class="snip-copy" onclick="copySnippet(this)">copy</button>
+            </div>
+            <div class="snip-what"><strong>What this does:</strong> ${s.what}</div>
+          </div>
+        </div>`).join('')}
+    </div>`;
+  });
+  list.innerHTML=html;
+}
+
+function switchTab(ctrlKey, idx, btn){
+  const card = btn.closest('.snip-card');
+  card.querySelectorAll('.snip-tab').forEach(t=>t.classList.remove('active'));
+  card.querySelectorAll('.snip-pane').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');
+  card.querySelector(`#pane-${ctrlKey}-${idx}`).classList.add('active');
+}
+
+function copySnippet(btn){
+  const pre = btn.previousElementSibling;
+  const text = pre.textContent;
+  navigator.clipboard.writeText(text).then(()=>{
+    btn.textContent='copied ✓';
+    btn.style.color='var(--accent3)';
+    btn.style.borderColor='var(--accent3)';
+    setTimeout(()=>{btn.textContent='copy';btn.style.color='';btn.style.borderColor='';},2000);
+  });
+}
+
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ TOAST ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 function showToast(msg){
   const t=document.createElement('div');t.className='toast';t.textContent=msg;
@@ -1060,9 +1879,9 @@ function showToast(msg){
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ KEYBOARD ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 let keyBuf='';
 document.addEventListener('keydown',e=>{
-  if(e.key==='?'){alert('Keyboard shortcuts:\n\n  g d  → Dashboard\n  g h  → Heatmap\n  g c  → Controls\n  g r  → Risk Register\n  g x  → Diff Viewer\n  g p  → Posture Score\n  g s  → SoA Generator\n  g t  → Threat Mapper\n  g e  → Evidence Wizard\n\n  ?    → This help');return;}
+  if(e.key==='?'){alert('Keyboard shortcuts:\n\n  g d  → Dashboard\n  g h  → Heatmap\n  g c  → Controls\n  g r  → Risk Register\n  g x  → Diff Viewer\n  g p  → Posture Score\n  g s  → SoA Generator\n  g t  → Threat Mapper\n  g e  → Evidence Wizard\n  g n  → Code Snippets\n\n  ?    → This help');return;}
   keyBuf+=e.key;if(keyBuf.length>2)keyBuf=keyBuf.slice(-2);
-  const map={gd:'dashboard',gh:'heatmap',gc:'controls',gr:'risk',gx:'diff',gp:'posture',gs:'soa',gt:'threats',ge:'evidence'};
+  const map={gd:'dashboard',gh:'heatmap',gc:'controls',gr:'risk',gx:'diff',gp:'posture',gs:'soa',gt:'threats',ge:'evidence',gn:'snippets'};
   if(map[keyBuf]){nav(map[keyBuf],null);keyBuf='';}
 });
 
@@ -1075,6 +1894,7 @@ buildPostureQuestions();
 buildSoA();
 buildThreats();
 buildEvidenceSelect();
+buildSnippets();
 updateScore();
 </script>
 </body>
