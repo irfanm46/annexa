@@ -22,7 +22,7 @@ Every MNC wants ISO 27001. Nobody explains it in plain English for engineers.
 
 ---
 
-## ✨ Features
+## ✨ Features:
 
 ### ▦ Compliance Heatmap
 Visual grid of all 93 Annex A controls. Click to mark each as **Implemented**, **Partial**, **Gap**, or **N/A**. Your progress saves automatically in the browser. Screenshot it, share it, use it in audits.
