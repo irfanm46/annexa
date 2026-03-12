@@ -27,7 +27,7 @@ Every MNC wants ISO 27001. Nobody explains it in plain English for engineers.
 ### ▦ Compliance Heatmap
 Visual grid of all 93 Annex A controls. Click to mark each as **Implemented**, **Partial**, **Gap**, or **N/A**. Your progress saves automatically in the browser. Screenshot it, share it, use it in audits.
 
-### ◈ Controls Guide — Plain English
+### ◈ Controls Guide — Plain English.
 Every control explained in language engineers actually understand. Filter by your role:
 - ⚙ DevOps Engineer
 - ◈ Backend Developer  
