@@ -8,7 +8,7 @@
 ![ISO 27001:2022](https://img.shields.io/badge/ISO%2027001-2022%20Edition-00e5ff?style=flat-square)
 ![Controls](https://img.shields.io/badge/Controls-93%20Annex%20A-7c3aed?style=flat-square)
 ![Offline](https://img.shields.io/badge/Works-Offline-10b981?style=flat-square)
-![No Signup](https://img.shields.io/badge/No-Signup%20Required-f59e0b?style=flat-square)
+![No  Signup](https://img.shields.io/badge/No-Signup%20Required-f59e0b?style=flat-square)
 ![License](https://img.shields.io/badge/License-MIT-white?style=flat-square)
 ![PRs Welcome](https://img.shields.io/badge/PRs-Welcome-00e5ff?style=flat-square)
 
