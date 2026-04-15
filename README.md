@@ -1,5 +1,5 @@
 # annexa ⬡
-> ISO 27001:2022 toolkit for engineers. Free. Offline. No signup. No API keys. No billing.
+> ISO 27001:2022 toolkit for engineers. Free. Offline. No signup. No API keys. No billing. 
 
 **[🚀 Launch App](https://irfanm46.github.io/annexa)** · [Report Bug](https://github.com/irfanm46/annexa/issues) · [Request Feature](https://github.com/irfanm46/annexa/issues)
 
