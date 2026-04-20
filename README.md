@@ -13,7 +13,7 @@
 ![PRs Welcome](https://img.shields.io/badge/PRs-Welcome-00e5ff?style=flat-square)
  
 ---  
-  
+   
 ## What is this?
 
 Every MNC wants ISO 27001. Nobody explains it in plain English for engineers.
